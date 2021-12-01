@@ -7,6 +7,7 @@ camera = PiCamera()
 camera.resolution = (2592, 1944)
 # for recording videos
 # camera.resolution = (1920, 1080)
+# minimum 64 * 64
 
 camera.framerate = 15
 # initial value for brightness is 70 and can be changed to a number
