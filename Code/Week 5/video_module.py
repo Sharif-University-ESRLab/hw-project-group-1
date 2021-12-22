@@ -18,14 +18,14 @@ class Camera:
         self.video_capacity = 1
 
     def check_video_capacity(self):
-        directory = '{self.base_url}/videos/'
+        directory = f'{self.base_url}/videos/'
         path = Path(directory)
         num_recorded_videos = sum(1 for f in path.glob('*') if f.is_file())
         if num_recorded_videos > self.video_capacity:
             video_files = list(filter(lambda f: 'video' in f, os.listdir(directory)))
             video_files.sort()
             video_to_be_deleted = video_files[0]
-            os.remove('{directoy}{video_to_be_deleted}')
+            os.remove(f'{directory}{video_to_be_deleted}')
 
     def start(self):
         self.camera.start_preview(alpha = 200)
@@ -34,12 +34,12 @@ class Camera:
         self.camera.stop_preview()
 
     def capture_picture(self):
-        self.camera.capture('{self.base_url}/pictures/image_{self.picture_counter}.jpg')
+        self.camera.capture(f'{self.base_url}/pictures/image_{self.picture_counter}.jpg')
         self.picture_counter += 1
 
     def start_recording(self):
         self.check_video_capacity()
-        self.camera.start_recording('{self.base_url}/videos/video{self.video_counter}.h264')
+        self.camera.start_recording(f'{self.base_url}/videos/video{self.video_counter}.h264')
         self.video_counter += 1
 
     def stop_recording(self):
