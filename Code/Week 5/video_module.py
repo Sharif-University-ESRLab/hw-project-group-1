@@ -31,12 +31,7 @@ class Camera:
         os.remove(f'{self.base_url}/videos/dummy.h264')
         print(f"calculated -> possible video storage: {total_free_size/video_size} videos and {total_free_size/video_size*self.video_length} seconds")
         return total_free_size/video_size, total_free_size/video_size*self.video_length
-        # returns count, total_time
-        
-
-
-
-
+        # returns count, total_time  
         
     def check_video_capacity(self):
         directory = f'{self.base_url}/videos/'
