@@ -15,7 +15,7 @@ class Camera:
         self.calc_video_capacity()
 
     def calc_video_capacity(self):
-        self.video_capacity = 10
+        self.video_capacity = 1
 
     def check_video_capacity(self):
         directory = '{self.base_url}/videos/'
