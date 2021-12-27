@@ -31,3 +31,5 @@ def stop_recording():
 def get_status():
     if request.args.get("token") != global_token:
         return "invalid token"
+
+    return "temp"
