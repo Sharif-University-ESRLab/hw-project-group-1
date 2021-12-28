@@ -1,4 +1,5 @@
 from flask import Flask
+import os
 from flask import request
 
 with open(".token") as file:
@@ -33,3 +34,31 @@ def get_status():
         return "invalid token"
 
     return "temp"
+
+@app.route("/delete_file/<name>")
+def delete_file(name):
+    if request.args.get("token") != global_token:
+        return "invalid token"
+    try:
+        os.remove(f"videos/{name}")
+    except Exception as ignore:
+        pass
+    try:
+        os.remove(f"pictures/{name}")
+    except Exception as ignore:
+        pass
+    return "removed file succesfully"
+
+@app.route("/get_files")
+def get_file_list():
+    if request.args.get("token") != global_token:
+        return "invalid token"
+    files = {
+        "pictures":[],
+        "videos":[]
+    }
+    for file in os.listdir("pictures"):
+        files["pictures"].append(file)
+    for file in os.listdir("videos"):
+        files["videos"].append(file)
+    return files
