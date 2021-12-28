@@ -61,11 +61,11 @@ def delete_file(name):
     if request.args.get("token") != global_token:
         return "invalid token"
     try:
-        os.remove(f"videos/{name}")
+        os.remove("videos/{}".format(name))
     except Exception as ignore:
         pass
     try:
-        os.remove(f"pictures/{name}")
+        os.remove("pictures/{}".format(name))
     except Exception as ignore:
         pass
     return "removed file succesfully"
@@ -80,7 +80,7 @@ def get_file_list():
     for file in os.listdir("pictures"):
         if file.split(".")[-1] != "jpg":
             continue
-        with open(f"pictures/{file}", "rb") as image_file:
+        with open("pictures/{}".format(file), "rb") as image_file:
             encoded_string = base64.b64encode(image_file.read())
             print(encoded_string)
             pictures[file] = str(encoded_string)
