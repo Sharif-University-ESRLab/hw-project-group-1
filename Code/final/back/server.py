@@ -33,7 +33,10 @@ def get_status():
     if request.args.get("token") != global_token:
         return "invalid token"
 
-    return "temp"
+    return {
+        "alarm":alarm,
+        "recording":recording,
+    }
 
 @app.route("/delete_file/<name>")
 def delete_file(name):
