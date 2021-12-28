@@ -15,7 +15,7 @@ thread = VideoThread(True)
 thread.setDaemon(True)
 thread_sound = AlarmThread()
 thread_sound.setDaemon(True)
-# thread_sound.start()
+thread_sound.start()
 
 app = Flask(__name__, static_folder="videos")
 
