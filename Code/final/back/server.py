@@ -74,17 +74,17 @@ def delete_file(name):
 def get_file_list():
     if request.args.get("token") != global_token:
         return "invalid token"
-    pictures = {
-
-    }
+    pictures = []
     for file in os.listdir("pictures"):
         if file.split(".")[-1] != "jpg":
             continue
         with open("pictures/{}".format(file), "rb") as image_file:
             encoded_string = base64.b64encode(image_file.read())
-            print(encoded_string)
-            pictures[file] = str(encoded_string)
-    return pictures
+            pictures.append({
+                "name":file,
+                "image":str(encoded_string)
+            })
+    return {"arr":pictures}
 
 @app.route("/show_video/<name>")
 def download_file(name):
