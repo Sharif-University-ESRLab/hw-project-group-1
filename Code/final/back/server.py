@@ -2,6 +2,8 @@ from flask import Flask
 import os
 from flask import request
 from threads import AlarmThread, VideoThread
+import base64
+import re
 
 with open(".token") as file:
     global_token = file.readline()
@@ -13,7 +15,7 @@ thread = VideoThread(True)
 thread.setDaemon(True)
 thread_sound = AlarmThread()
 thread_sound.setDaemon(True)
-thread_sound.start()
+# thread_sound.start()
 
 app = Flask(__name__)
 
@@ -72,13 +74,17 @@ def delete_file(name):
 def get_file_list():
     if request.args.get("token") != global_token:
         return "invalid token"
-    files = {
-        "pictures":[],
-        "videos":[]
+    pictures = {
+
     }
     for file in os.listdir("pictures"):
-        files["pictures"].append(file)
-    return files
+        if file.split(".")[-1] != "jpg":
+            continue
+        with open(f"pictures/{file}", "rb") as image_file:
+            encoded_string = base64.b64encode(image_file.read())
+            print(encoded_string)
+            pictures[file] = str(encoded_string)
+    return pictures
 
 @app.route("/download")
 def download_file():
