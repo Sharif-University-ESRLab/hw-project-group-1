@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 import os
 from flask import request
 from threads import AlarmThread, VideoThread
@@ -17,7 +17,7 @@ thread_sound = AlarmThread()
 thread_sound.setDaemon(True)
 # thread_sound.start()
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="videos")
 
 @app.route("/")
 def hello_world():
@@ -86,10 +86,11 @@ def get_file_list():
             pictures[file] = str(encoded_string)
     return pictures
 
-@app.route("/download")
-def download_file():
-    pass
-    # TODO fill this function
+@app.route("/show_video/<name>")
+def download_file(name):
+    if name not in os.listdir("videos"):
+        return "no shuch file"
+    return render_template("video_template.html", name=name)
 
 @app.route("/set_alarm_off")
 def set_alarm_off():
