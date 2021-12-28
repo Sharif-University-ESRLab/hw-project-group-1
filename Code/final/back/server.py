@@ -105,3 +105,10 @@ def reset_alarm():
         return "invalid token"
     thread_sound.send = True
     return "reset alarm, looking for noise"
+
+@app.route("/get_recording_status")
+def get_recording_status():
+    if thread.paused == False:
+        return "recording"
+    else:
+        return "paused" 
