@@ -42,6 +42,8 @@ class AlarmThread(Thread):
                 send_email(*get_mail_values())
                 self.send = False
 
+def convert(path):
+    pass
 
 class VideoThread(Thread):
     def __init__(self, paused=False):
@@ -49,7 +51,7 @@ class VideoThread(Thread):
         self.paused = paused
         self.pause_cond = Condition(Lock())
         self.camera = PiCamera()
-        self.camera.resolution(640,480)
+        self.camera.resolution = (640,480)
 
     def run(self):
         while True:
@@ -57,8 +59,12 @@ class VideoThread(Thread):
                 while self.paused:
                     self.pause_cond.wait()
                 file_name = datetime.datetime.now()
-                self.camera.capture("pictures/{}".format(str(file_name)))
-            time.sleep(5)
+                # self.camera.start_recording("videos/{}.h264".format(str(file_name)))
+                # time.sleep(5)
+                self.camera.capture("pictures/{}.jpg".format(str(file_name)))
+                time.sleep(5)
+                # self.camera.stop_recording()
+            
 
     def pause(self):
         self.paused = True
