@@ -110,14 +110,14 @@ def reset_alarm():
 def get_recording_status():
     if request.args.get("token") != global_token:
         return "invalid token"
-        
+
     if thread.paused == False:
         return "recording"
     else:
         return "paused" 
 
 @app.route("/get_alarm_status")
-def get_recording_status():
+def get_alarm_status():
     if request.args.get("token") != global_token:
         return "invalid token"
 
