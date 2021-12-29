@@ -108,7 +108,20 @@ def reset_alarm():
 
 @app.route("/get_recording_status")
 def get_recording_status():
+    if request.args.get("token") != global_token:
+        return "invalid token"
+        
     if thread.paused == False:
         return "recording"
     else:
         return "paused" 
+
+@app.route("/get_alarm_status")
+def get_recording_status():
+    if request.args.get("token") != global_token:
+        return "invalid token"
+
+    if thread_sound.send == False:
+        return "off"
+    else:
+        return "on" 
