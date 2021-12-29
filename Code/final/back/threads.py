@@ -21,28 +21,29 @@ class AlarmThread(Thread):
     def callback(self):
         if GPIO.input(self.sound):
             print("Sound Detected!")
-            self.send = True
         else:
             print("Sound Detected!")
-            self.send = True
         print(GPIO.input(self.sound))
 
+
     def run(self):
+        # let us know when the pin goes HIGH or LOW
+        GPIO.add_event_detect(self.sound, GPIO.BOTH, self.callback, bouncetime=300)
+        # assign function to GPIO PIN, Run function on change
+        GPIO.add_event_callback(self.sound, self.callback)
+        ##detect events
+        GPIO.event_detected(self.sound)
         while True:
-            # let us know when the pin goes HIGH or LOW
-            GPIO.add_event_detect(self.sound, GPIO.BOTH, self.callback, bouncetime=300)
-            # assign function to GPIO PIN, Run function on change
-            GPIO.add_event_callback(self.sound, self.callback)
-            ##detect events
-            GPIO.event_detected(self.sound)
             print(GPIO.event_detected(self.sound))
+            time.sleep(1)
             if self.send and GPIO.event_detected(self.sound):
+                print("HERE")
                 send_email(*get_mail_values())
                 self.send = False
 
 
 class VideoThread(Thread):
-    def __init__(self, paused = False):
+    def __init__(self, paused=False):
         super(VideoThread, self).__init__()
         self.paused = paused
         self.pause_cond = Condition(Lock())
@@ -65,3 +66,6 @@ class VideoThread(Thread):
         self.pause_cond.release()
 
 
+if __name__ == "__main__":
+    sound_thread = AlarmThread()
+    sound_thread.run()
