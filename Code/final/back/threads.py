@@ -62,7 +62,7 @@ class VideoThread(Thread):
                 file_name = datetime.datetime.now()
                 self.camera.start_recording("videos/{}.h264".format(str(file_name)))
                 time.sleep(5)
-                self.camera.capture("pictures/{}.jpg".format(str(file_name)))
+                # self.camera.capture("pictures/{}.jpg".format(str(file_name)))
                 time.sleep(5)
                 self.camera.stop_recording()
                 time.sleep(1)
