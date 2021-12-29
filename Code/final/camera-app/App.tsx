@@ -173,7 +173,6 @@ export default function Camera() {
             color: "black",
             fontSize: 30,
             fontWeight: "bold",
-            fontFamily: "lucida grande",
           }}
         >
           Camera
@@ -303,7 +302,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     fontWeight: "bold",
-    fontFamily: "lucida grande",
   },
   pl: {
     paddingLeft: 16,
