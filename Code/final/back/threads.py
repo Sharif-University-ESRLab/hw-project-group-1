@@ -41,3 +41,27 @@ class AlarmThread(Thread):
                 self.send = False
 
 
+class VideoThread(Thread):
+    def __init__(self, paused = False):
+        super(VideoThread, self).__init__()
+        self.paused = paused
+        self.pause_cond = Condition(Lock())
+
+    def run(self):
+        while True:
+            with self.pause_cond:
+                while self.paused:
+                    self.pause_cond.wait()
+                print("doing sth")
+            time.sleep(2)
+
+    def pause(self):
+        self.paused = True
+        self.pause_cond.acquire()
+
+    def resume(self):
+        self.paused = False
+        self.pause_cond.notify()
+        self.pause_cond.release()
+
+
