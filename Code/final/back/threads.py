@@ -84,5 +84,5 @@ class Converter(Thread):
         self.path = path
 
     def run(self):
-        os.system("ffmpeg -i {}.h264 -c copy {}.mp4".format(self.path, self.path))
-        # os.remove("{}.h264".format(self.path))
+        os.system("ffmpeg -i \"{}\".h264 -c copy \"{}\".mp4".format(self.path, self.path))
+        os.remove("{}.h264".format(self.path))
