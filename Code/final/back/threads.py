@@ -63,8 +63,7 @@ class VideoThread(Thread):
                 time.sleep(10)
                 self.camera.stop_recording()
                 time.sleep(1)
-                
-                time.sleep(1)
+                Converter("videos/{}".format(file_name))
 
     def pause(self):
         self.paused = True
@@ -85,5 +84,5 @@ class Converter(Thread):
         self.path = path
 
     def run(self):
-        os.system("ffmpeg -i {} -c copy {}.mp4".format(self.path, self.path[:-4]))
-        os.remove(self.path)
+        os.system("ffmpeg -i {}.h264 -c copy {}.mp4".format(self.path, self.path))
+        os.remove("{}.h264".format(self.path))
