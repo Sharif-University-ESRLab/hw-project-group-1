@@ -63,7 +63,7 @@ class VideoThread(Thread):
                 time.sleep(10)
                 self.camera.stop_recording()
                 time.sleep(1)
-                Converter("videos/{}".format(file_name))
+                Converter("videos/{}".format(file_name)).start()
 
     def pause(self):
         self.paused = True
