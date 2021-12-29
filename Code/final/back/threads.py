@@ -152,6 +152,7 @@ class SoundDetectionThread(Thread):
                 time.sleep(2)
             # time.sleep(2)
 
+
     def pause(self):
         self.paused = True
         self.pause_cond.acquire()
