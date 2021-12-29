@@ -155,7 +155,6 @@ export default function Camera() {
           height: 100,
           paddingTop: 25,
           backgroundColor: "white",
-          zIndex: 2,
           shadowColor: "#ccc",
           shadowOffset: { width: 1, height: 1 },
           shadowOpacity: 10,
@@ -174,13 +173,13 @@ export default function Camera() {
             color: "black",
             fontSize: 30,
             fontWeight: "bold",
-            fontFamily: "Trebuchet MS",
+            fontFamily: "lucida grande",
           }}
         >
           Camera
         </Text>
       </View>
-      <View style={{ ...styles.container, paddingTop: 70 }}>
+      <View style={{ ...styles.container, marginTop: 150 }}>
         <View
           style={{
             ...styles.flex,
@@ -304,7 +303,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     fontWeight: "bold",
-    fontFamily: "Trebuchet MS",
+    fontFamily: "lucida grande",
   },
   pl: {
     paddingLeft: 16,
