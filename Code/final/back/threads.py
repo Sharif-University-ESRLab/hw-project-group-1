@@ -7,6 +7,7 @@ from time import sleep
 from pathlib import Path
 import os
 import shutil
+import datetime
 
 
 class AlarmThread(Thread):
@@ -47,14 +48,17 @@ class VideoThread(Thread):
         super(VideoThread, self).__init__()
         self.paused = paused
         self.pause_cond = Condition(Lock())
+        self.camera = PiCamera()
+        self.camera.resolution(640,480)
 
     def run(self):
         while True:
             with self.pause_cond:
                 while self.paused:
                     self.pause_cond.wait()
-                print("doing sth")
-            time.sleep(2)
+                file_name = datetime.datetime.now()
+                self.camera.capture("pictures/{}".format(str(file_name)))
+            time.sleep(5)
 
     def pause(self):
         self.paused = True
