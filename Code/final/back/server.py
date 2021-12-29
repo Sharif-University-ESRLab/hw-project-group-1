@@ -82,7 +82,7 @@ def get_file_list():
             encoded_string = base64.b64encode(image_file.read())
             pictures.append({
                 "name":file,
-                "image":str(encoded_string)
+                "image":encoded_string.decode('utf-8')
             })
     return {"arr":pictures}
 

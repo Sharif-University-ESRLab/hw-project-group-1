@@ -1,8 +1,8 @@
-export const serverUrl = "http://192.168.1.1:5000";
+export const serverUrl = "http://192.168.1.37:5000";
 const token = 'aaaaaa';
 
 export const get_record_status = () => {
-    requestOptions = {
+    const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
     };
@@ -10,7 +10,7 @@ export const get_record_status = () => {
 }
 
 export const start_recording = () => {
-    requestOptions = {
+    const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
     };
@@ -19,7 +19,7 @@ export const start_recording = () => {
 
 
 export const stop_recording = () => {
-    requestOptions = {
+    const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
     };
@@ -28,7 +28,7 @@ export const stop_recording = () => {
 
 
 export const get_pictures = () => {
-    requestOptions = {
+    const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
     };
@@ -37,9 +37,9 @@ export const get_pictures = () => {
 
 
 export const get_video = (id: string) => {
-    requestOptions = {
+    const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
     };
-    return fetch(`${serverUrl}/show_video/<name>?token=${token}`, requestOptions)
+    return fetch(`${serverUrl}/show_video/${id}?token=${token}`, requestOptions)
 }
