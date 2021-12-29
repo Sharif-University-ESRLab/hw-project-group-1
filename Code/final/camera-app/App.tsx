@@ -19,6 +19,9 @@ import {
   serverUrl,
   start_recording,
   stop_recording,
+  get_alarm_status,
+  set_alarm_on,
+  set_alarm_off,
 } from "./camera/requests";
 
 const { width } = Dimensions.get("window");
@@ -33,6 +36,7 @@ const IMAGES = [
 
 export default function Camera() {
   const [isRecording, setIsRecording] = useState(true);
+  const [alarm, setAlarm] = useState(false);
   const [images, setImages] = useState(IMAGES);
   const [indexSelected, setIndexSelected] = useState(0);
   const [showVideo, setShowVideo] = useState(false);
@@ -44,6 +48,7 @@ export default function Camera() {
 
   useEffect(() => {
     initializeRecording();
+    initializeAlarm();
     getImages();
   }, []);
 
@@ -60,6 +65,40 @@ export default function Camera() {
       .catch((error) => {
         alert(error);
       });
+  };
+
+  const initializeAlarm = () => {
+    get_alarm_status()
+      .then((response) => response.text())
+      .then((status) => {
+        if (status === "on") {
+          setAlarm(true);
+        } else {
+          setAlarm(false);
+        }
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
+
+  const handleAlarm = (value: boolean) => {
+    if (value === true) {
+      set_alarm_on()
+        .then((status) => {})
+        .catch((error) => {
+          alert(error);
+          setAlarm(!value);
+        });
+    } else {
+      set_alarm_off()
+        .then((status) => {})
+        .catch((error) => {
+          alert(error);
+          setAlarm(!value);
+        });
+    }
+    setAlarm(value);
   };
 
   const handleSwitch = (value: boolean) => {
@@ -155,6 +194,23 @@ export default function Camera() {
             trackColor={{ true: "#8770AE" }}
             onValueChange={handleSwitch}
             value={isRecording}
+          />
+        </View>
+        <View
+          style={{
+            ...styles.flex,
+            ...styles.spaceBetween,
+            alignItems: "flex-start",
+            flex: 1 / 5,
+          }}
+        >
+          <Text style={{ ...styles.text, ...styles.mr }}>
+            Alarm Notification
+          </Text>
+          <Switch
+            trackColor={{ true: "#8770AE" }}
+            onValueChange={handleAlarm}
+            value={alarm}
           />
         </View>
         <View
