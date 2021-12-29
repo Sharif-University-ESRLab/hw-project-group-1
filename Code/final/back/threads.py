@@ -35,9 +35,9 @@ class AlarmThread(Thread):
             GPIO.add_event_callback(self.sound, self.callback)
             ##detect events
             GPIO.event_detected(self.sound)
-            if self.send:
+            print(GPIO.event_detected(self.sound))
+            if self.send and GPIO.event_detected(self.sound):
                 send_email(*get_mail_values())
-                print(GPIO.event_detected(self.sound))
                 self.send = False
 
 
