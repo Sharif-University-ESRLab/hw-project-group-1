@@ -60,13 +60,11 @@ class VideoThread(Thread):
                 while self.paused:
                     self.pause_cond.wait()
                 file_name = datetime.datetime.now()
+                self.camera.capture("pictures/{}.jpg".format(str(file_name)))
                 self.camera.start_recording("videos/{}.h264".format(str(file_name)))
-                time.sleep(5)
-                # self.camera.capture("pictures/{}.jpg".format(str(file_name)))
-                time.sleep(5)
+                time.sleep(10)
                 self.camera.stop_recording()
                 time.sleep(1)
-            
 
     def pause(self):
         self.paused = True
@@ -76,7 +74,6 @@ class VideoThread(Thread):
         self.paused = False
         self.pause_cond.notify()
         self.pause_cond.release()
-
 
 if __name__ == "__main__":
     sound_thread = AlarmThread()
