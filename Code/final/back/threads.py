@@ -91,17 +91,16 @@ class AlarmThread(Thread):
         print(GPIO.input(self.sound))
 
     def run(self):
-        # let us know when the pin goes HIGH or LOW
-        GPIO.add_event_detect(self.sound, GPIO.BOTH, self.callback, bouncetime=300)
-        # assign function to GPIO PIN, Run function on change
-        GPIO.add_event_callback(self.sound, self.callback)
-        ##detect events
-        GPIO.event_detected(self.sound)
         while True:
-            print(GPIO.event_detected(self.sound))
-            time.sleep(2)
+            # let us know when the pin goes HIGH or LOW
+            GPIO.add_event_detect(self.sound, GPIO.BOTH, self.callback, bouncetime=300)
+            # assign function to GPIO PIN, Run function on change
+            GPIO.add_event_callback(self.sound, self.callback)
+            ##detect events
+            GPIO.event_detected(self.sound)
             if self.send:
                 send_email(*get_mail_values())
+                print(GPIO.event_detected(self.sound))
                 self.send = False
 
 
