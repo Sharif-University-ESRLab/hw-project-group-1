@@ -1,4 +1,5 @@
 from threading import Thread, Condition, Lock
+import threading
 import time
 import RPi.GPIO as GPIO
 from mail import send_email, get_mail_values
@@ -42,9 +43,6 @@ class AlarmThread(Thread):
                 send_email(*get_mail_values())
                 self.send = False
 
-def convert(path):
-    pass
-
 class VideoThread(Thread):
     def __init__(self, paused=False):
         super(VideoThread, self).__init__()
@@ -65,6 +63,8 @@ class VideoThread(Thread):
                 time.sleep(10)
                 self.camera.stop_recording()
                 time.sleep(1)
+                
+                time.sleep(1)
 
     def pause(self):
         self.paused = True
@@ -78,3 +78,12 @@ class VideoThread(Thread):
 if __name__ == "__main__":
     sound_thread = AlarmThread()
     sound_thread.run()
+
+class Converter(Thread):
+    def __init__(self, path):
+        super(Converter, self).__init__()
+        self.path = path
+
+    def run(self):
+        os.system("ffmpeg -i {} -c copy {}.mp4".format(self.path, self.path[:-4]))
+        os.remove(self.path)
