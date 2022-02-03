@@ -1,3 +1,5 @@
+import { Video } from "expo-av";
+import VideoPlayer from "expo-video-player";
 import React, { useEffect, useState } from "react";
 import {
   Button,
@@ -11,17 +13,11 @@ import {
   View,
 } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
-import { WebView } from "react-native-webview";
 import {
+  get_alarm_status,
   get_pictures,
   get_record_status,
   get_video,
-  serverUrl,
-  start_recording,
-  stop_recording,
-  get_alarm_status,
-  set_alarm_on,
-  set_alarm_off,
 } from "./camera/requests";
 
 const { width } = Dimensions.get("window");
@@ -40,16 +36,18 @@ export default function Camera() {
   const [images, setImages] = useState(IMAGES);
   const [indexSelected, setIndexSelected] = useState(0);
   const [showVideo, setShowVideo] = useState(false);
-  const [videoUrl, setVideoUrl] = useState("https://reactnative.dev/");
+  const [videoUrl, setVideoUrl] = useState(
+    "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"
+  );
 
   const onSelect = (indexSelected: number) => {
     setIndexSelected(indexSelected);
   };
 
   useEffect(() => {
-    initializeRecording();
-    initializeAlarm();
-    getImages();
+    // initializeRecording();
+    // initializeAlarm();
+    // getImages();
   }, []);
 
   const initializeRecording = () => {
@@ -83,40 +81,40 @@ export default function Camera() {
   };
 
   const handleAlarm = (value: boolean) => {
-    if (value === true) {
-      set_alarm_on()
-        .then((status) => {})
-        .catch((error) => {
-          alert(error);
-          setAlarm(!value);
-        });
-    } else {
-      set_alarm_off()
-        .then((status) => {})
-        .catch((error) => {
-          alert(error);
-          setAlarm(!value);
-        });
-    }
+    // if (value === true) {
+    //   set_alarm_on()
+    //     .then((status) => {})
+    //     .catch((error) => {
+    //       alert(error);
+    //       setAlarm(!value);
+    //     });
+    // } else {
+    //   set_alarm_off()
+    //     .then((status) => {})
+    //     .catch((error) => {
+    //       alert(error);
+    //       setAlarm(!value);
+    //     });
+    // }
     setAlarm(value);
   };
 
   const handleSwitch = (value: boolean) => {
-    if (value === true) {
-      start_recording()
-        .then((status) => {})
-        .catch((error) => {
-          alert(error);
-          setIsRecording(!value);
-        });
-    } else {
-      stop_recording()
-        .then((status) => {})
-        .catch((error) => {
-          alert(error);
-          setIsRecording(!value);
-        });
-    }
+    // if (value === true) {
+    //   start_recording()
+    //     .then((status) => {})
+    //     .catch((error) => {
+    //       alert(error);
+    //       setIsRecording(!value);
+    //     });
+    // } else {
+    //   stop_recording()
+    //     .then((status) => {})
+    //     .catch((error) => {
+    //       alert(error);
+    //       setIsRecording(!value);
+    //     });
+    // }
     setIsRecording(value);
   };
 
@@ -132,6 +130,7 @@ export default function Camera() {
   };
 
   const getVideo = async () => {
+    setShowVideo(true);
     const name = images[indexSelected].name.replace(".jpg", ".mp4");
     get_video(name)
       .then((response) => response.text())
@@ -142,6 +141,11 @@ export default function Camera() {
       .catch((error) => {
         alert(error);
       });
+  };
+
+  const onVideoError = () => {
+    setShowVideo(false);
+    alert("There has been a problem with the video, Please try again.");
   };
 
   return (
@@ -254,27 +258,34 @@ export default function Camera() {
           ></Button>
         </View>
       </View>
-      <Modal transparent={true} visible={showVideo}>
-        <View
-          style={{
-            backgroundColor: "white",
-            marginTop: 40,
-            marginLeft: 40,
-          }}
-        >
-          <WebView
-            source={{
-              uri: `${serverUrl}${videoUrl}`,
+      <Modal visible={showVideo}>
+        <View>
+          <VideoPlayer
+            videoProps={{
+              shouldPlay: true,
+              resizeMode: Video.RESIZE_MODE_CONTAIN,
+              source: {
+                uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+              },
             }}
-            onMessage={(event) =>
-              event.nativeEvent.data === "WINDOW_CLOSED"
-                ? setShowVideo(false)
-                : {}
+            errorCallback={onVideoError}
+            fullscreen={{ visible: false }}
+            autoHidePlayer={false}
+            header={
+              <TouchableOpacity onPress={() => setShowVideo(false)}>
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 30,
+                    paddingLeft: 30,
+                    paddingTop: 40,
+                  }}
+                >
+                  X
+                </Text>
+              </TouchableOpacity>
             }
           />
-          <TouchableOpacity onPress={() => setShowVideo(false)}>
-            <Text style={{ fontWeight: "bold", fontSize: 30 }}>X</Text>
-          </TouchableOpacity>
         </View>
       </Modal>
     </>
@@ -314,5 +325,12 @@ const styles = StyleSheet.create({
   },
   mb: {
     marginBottom: 20,
+  },
+  backgroundVideo: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
 });
