@@ -39,7 +39,7 @@ class AlarmThread(Thread):
             print(GPIO.event_detected(self.sound))
             time.sleep(1)
             if self.send and GPIO.event_detected(self.sound):
-                print("HERE")
+                print("No Sound detected")
                 send_email(*get_mail_values())
                 self.send = False
 
