@@ -21,7 +21,14 @@ def send_email(user, pwd, recipient, subject, body):
 def get_mail_values():
     with open(".email.json", "r") as file:
         d = json.load(file)
-        return d["username"], d["pass"], d["recipient"], "alert", "alert"
+        return d["username"], d["pass"], d["recipient"], "Burglar Alert", """Dear customer!
+
+                                                                        Strange things are happening near your device! 
+                                                                        
+                                                                        Be careful! 
+                                                                        
+                                                                        Best Regards, 
+                                                                        Safe Factory"""
         
 if __name__ == "__main__":
     send_email(*get_mail_values())
